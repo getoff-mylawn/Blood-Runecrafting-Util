@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024, Alex MacManus <bricksterpepper@hotmailco.uk>
+ * Copyright (c) 2024, alex-macm <bricksterpepper@hotmailco.uk>
  * Copyright (c) 2022, Jacob Petersen <jakepetersen1221@gmail.com>
  * All rights reserved.
  *
