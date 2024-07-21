@@ -85,7 +85,7 @@ public class NatureRCUtilPlugin extends Plugin
 					}
 					//if (Text.removeTags(menuEntries[i].getOption()).equals("Kaleb Paramaya")) {
 					//	log.info("Kaleb");
-					//	checkidx = i;
+						//checkidx = i;
 					//}
 				}
 				if (emptyIdx == -1) {
