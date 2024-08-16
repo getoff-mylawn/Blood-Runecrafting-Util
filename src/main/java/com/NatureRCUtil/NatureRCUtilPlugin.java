@@ -44,7 +44,7 @@ import java.util.Objects;
 
 @Slf4j
 @PluginDescriptor(
-		name = "Nature Runecraft Utilities"
+	name = "Nature Runecraft Utilities"
 )
 public class NatureRCUtilPlugin extends Plugin
 {
