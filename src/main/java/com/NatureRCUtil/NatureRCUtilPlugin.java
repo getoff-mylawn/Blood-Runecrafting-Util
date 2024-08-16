@@ -42,7 +42,7 @@ import net.runelite.api.coords.WorldPoint;
 
 @Slf4j
 @PluginDescriptor(
-		name = "Nature Runecraft Utilities"
+	name = "Nature Runecraft Utilities"
 )
 public class NatureRCUtilPlugin extends Plugin
 {
