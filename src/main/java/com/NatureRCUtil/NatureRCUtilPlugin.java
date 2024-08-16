@@ -40,8 +40,6 @@ import net.runelite.api.*;
 import org.apache.commons.lang3.ArrayUtils;
 import net.runelite.api.coords.WorldPoint;
 
-import java.util.Objects;
-
 @Slf4j
 @PluginDescriptor(
 		name = "Nature Runecraft Utilities"
@@ -74,6 +72,11 @@ public class NatureRCUtilPlugin extends Plugin
 	public void onPostMenuSort(PostMenuSort event) {
 		WorldPoint playerLoc = client.getLocalPlayer().getWorldLocation();
 		if (9547 == playerLoc.getRegionID()) {
+			String teleportString = "Jarr";
+			if (config.sirRebral()){
+				teleportString = "Sir Rebral";
+			}
+
 			Menu menu = client.getMenu();
 			MenuEntry[] menuEntries = menu.getMenuEntries();
 			if (menuEntries.length > 2) {
@@ -83,7 +86,7 @@ public class NatureRCUtilPlugin extends Plugin
 				if (ArrayUtils.contains(capes, cape)) {
 					teleportIdx = getIndexOfNameFromMenu(menu, "Teleport");
 					Menu subMenu = menuEntries[teleportIdx].getSubMenu();
-					jarrIdx = getIndexOfNameFromMenu(subMenu, "Jarr");
+					jarrIdx = getIndexOfNameFromMenu(subMenu, teleportString);
 
 					if (teleportIdx == -1) {
 						return;
