@@ -34,4 +34,13 @@ import net.runelite.client.config.ConfigItem;
 @ConfigGroup("naturerunecraftutilities")
 public interface NatureRCUtilConfig extends Config
 {
+    @ConfigItem(
+            keyName = "sirRebral",
+            name = "Sir Rebral",
+            description = "Swap Jarr to Sir Rebral.",
+            position = 0
+    )
+    default boolean sirRebral(){
+        return false;
+    }
 }

@@ -35,9 +35,8 @@ import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
-import net.runelite.api.events.ClientTick;
+import net.runelite.api.events.PostMenuSort;
 import net.runelite.api.*;
-import net.runelite.client.util.Text;
 import org.apache.commons.lang3.ArrayUtils;
 import net.runelite.api.coords.WorldPoint;
 
@@ -69,41 +68,50 @@ public class NatureRCUtilPlugin extends Plugin
 		log.info("NatureRCUtil stopped!");
 	}
 
-	@Subscribe
-	public void onClientTick(ClientTick event) {
+	@Subscribe(priority = -1)
+	public void onPostMenuSort(PostMenuSort event) {
 		WorldPoint playerLoc = client.getLocalPlayer().getWorldLocation();
 		if (9547 == playerLoc.getRegionID()) {
-			MenuEntry[] menuEntries = client.getMenuEntries();
-			if (ArrayUtils.contains(capes, menuEntries[menuEntries.length - 1].getItemId())) {
-				int emptyIdx = -1;
-				int topIdx = menuEntries.length - 1;
-				for (int i = 0; i < topIdx; i++) {
+			String teleportString = "Jarr";
+			if (config.sirRebral()){
+				teleportString = "Sir Rebral";
+			}
 
-					if (Text.removeTags(menuEntries[i].getOption()).equals("Jarr")) {
-						emptyIdx = i;
-						break;
+			Menu menu = client.getMenu();
+			MenuEntry[] menuEntries = menu.getMenuEntries();
+			if (menuEntries.length > 2) {
+				int cape = menuEntries[menuEntries.length - 2].getItemId();
+				int teleportIdx = -1;
+				int jarrIdx = -1;
+				if (ArrayUtils.contains(capes, cape)) {
+					teleportIdx = getIndexOfNameFromMenu(menu, "Teleport");
+					Menu subMenu = menuEntries[teleportIdx].getSubMenu();
+					jarrIdx = getIndexOfNameFromMenu(subMenu, teleportString);
+
+					if (teleportIdx == -1) {
+						return;
 					}
-					//if (Text.removeTags(menuEntries[i].getOption()).equals("Kaleb Paramaya")) {
-					//	log.info("Kaleb");
-						//checkidx = i;
-					//}
-				}
-				if (emptyIdx == -1) {
-					return;
-				}
 
-				MenuEntry entry1 = menuEntries[emptyIdx];
-				MenuEntry entry2 = menuEntries[topIdx];
-				menuEntries[emptyIdx] = entry2;
-				menuEntries[topIdx] = entry1;
-
-				client.setMenuEntries(menuEntries);
+					MenuEntry jarr = subMenu.getMenuEntries()[jarrIdx];
+					client.getMenu().createMenuEntry(-1).setOption(jarr.getOption()).setTarget(jarr.getTarget()).onClick(jarr.onClick()).setDeprioritized(false);
+				}
 			}
 		}
 	}
+
 	@Provides
 	NatureRCUtilConfig provideConfig(ConfigManager configManager)
 	{
 		return configManager.getConfig(NatureRCUtilConfig.class);
+	}
+
+	private int getIndexOfNameFromMenu (Menu menu, String name){
+		int index = -1;
+		for (int i = 0; i < menu.getMenuEntries().length - 1; i++) {
+			if (menu.getMenuEntries()[i].getOption().equals(name)) {
+				index = i;
+			}
+		}
+		return index;
 	}
 }
