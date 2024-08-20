@@ -42,7 +42,7 @@ import net.runelite.api.coords.WorldPoint;
 
 @Slf4j
 @PluginDescriptor(
-	name = "Nature Runecraft Utilities"
+		name = "Nature Runecraft Utilities"
 )
 public class NatureRCUtilPlugin extends Plugin
 {
@@ -85,15 +85,25 @@ public class NatureRCUtilPlugin extends Plugin
 				int jarrIdx = -1;
 				if (ArrayUtils.contains(capes, cape)) {
 					teleportIdx = getIndexOfNameFromMenu(menu, "Teleport");
-					Menu subMenu = menuEntries[teleportIdx].getSubMenu();
-					jarrIdx = getIndexOfNameFromMenu(subMenu, teleportString);
-
 					if (teleportIdx == -1) {
 						return;
 					}
+					Menu subMenu = menuEntries[teleportIdx].getSubMenu();
+					if (subMenu == null) {
+						return;
+					}
 
-					MenuEntry jarr = subMenu.getMenuEntries()[jarrIdx];
-					client.getMenu().createMenuEntry(-1).setOption(jarr.getOption()).setTarget(jarr.getTarget()).onClick(jarr.onClick()).setDeprioritized(false);
+					MenuEntry[] subMenuEntries = subMenu.getMenuEntries();
+					jarrIdx = getIndexOfNameFromMenu(subMenu, teleportString);
+
+					if (jarrIdx >= 0 && jarrIdx < subMenuEntries.length) {
+						MenuEntry jarr = subMenuEntries[jarrIdx];
+						client.getMenu().createMenuEntry(-1)
+								.setOption(jarr.getOption())
+								.setTarget(jarr.getTarget())
+								.onClick(jarr.onClick())
+								.setDeprioritized(false);
+					}
 				}
 			}
 		}
@@ -106,12 +116,11 @@ public class NatureRCUtilPlugin extends Plugin
 	}
 
 	private int getIndexOfNameFromMenu (Menu menu, String name){
-		int index = -1;
 		for (int i = 0; i < menu.getMenuEntries().length - 1; i++) {
 			if (menu.getMenuEntries()[i].getOption().equals(name)) {
-				index = i;
+				return i;
 			}
 		}
-		return index;
+		return -1;
 	}
 }
