@@ -26,7 +26,7 @@
 
 
 
-package com.NatureRCUtil;
+package com.BloodRCUtil;
 import com.google.inject.Provides;
 import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
@@ -42,85 +42,55 @@ import net.runelite.api.coords.WorldPoint;
 
 @Slf4j
 @PluginDescriptor(
-		name = "Nature Runecraft Utilities"
+		name = "Blood Runecraft Utilities"
 )
-public class NatureRCUtilPlugin extends Plugin
+public class BloodRCUtilPlugin extends Plugin
 {
 	int[] capes = {
-			ItemID.ACHIEVEMENT_DIARY_CAPE, //diary cape
-			ItemID.ACHIEVEMENT_DIARY_CAPE_T // diary cape (t)
+			ItemID.CONSTRUCT._CAPE, //diary cape
+			ItemID.CONSTRUCT._CAPE_T // diary cape (t)
 	};
 	@Inject
 	private Client client;
 
-	@Inject
-	private NatureRCUtilConfig config;
-
 	@Override
 	protected void startUp() throws Exception
 	{
-		log.info("NatureRCutil started!");
+		log.info("BloodRCutil started!");
 	}
 
 	@Override
 	protected void shutDown() throws Exception
 	{
-		log.info("NatureRCUtil stopped!");
+		log.info("BloodRCUtil stopped!");
 	}
 
 	@Subscribe(priority = -1)
 	public void onPostMenuSort(PostMenuSort event) {
 		WorldPoint playerLoc = client.getLocalPlayer().getWorldLocation();
-		if (9547 == playerLoc.getRegionID()) {
-			String teleportString = "Jarr";
-			if (config.sirRebral()){
-				teleportString = "Sir Rebral";
-			}
-
+		if ( 12875== playerLoc.getRegionID()) {
+			
 			Menu menu = client.getMenu();
 			MenuEntry[] menuEntries = menu.getMenuEntries();
 			if (menuEntries.length > 2) {
 				int cape = menuEntries[menuEntries.length - 2].getItemId();
-				int teleportIdx = -1;
-				int jarrIdx = -1;
+				int wearIdx = -1;
 				if (ArrayUtils.contains(capes, cape)) {
-					teleportIdx = getIndexOfNameFromMenu(menu, "Teleport");
-					if (teleportIdx == -1) {
-						return;
-					}
-					Menu subMenu = menuEntries[teleportIdx].getSubMenu();
-					if (subMenu == null) {
+					wearIdx = getIndexOfNameFromMenu(menu, "Wear");
+					if (wearIdx == -1) {
 						return;
 					}
 
-					MenuEntry[] subMenuEntries = subMenu.getMenuEntries();
-					jarrIdx = getIndexOfNameFromMenu(subMenu, teleportString);
-
-					if (jarrIdx >= 0 && jarrIdx < subMenuEntries.length) {
-						MenuEntry jarr = subMenuEntries[jarrIdx];
+					if (wearIdx >= 0 && wearrIdx < MenuEntries.length) {
+						MenuEntry wear = MenuEntries[wearIdx];
 						client.getMenu().createMenuEntry(-1)
-								.setOption(jarr.getOption())
-								.setTarget(jarr.getTarget())
-								.onClick(jarr.onClick())
+								.setOption(wear.getOption())
+								.setTarget(wear.getTarget())
+								.onClick(wear.onClick())
 								.setDeprioritized(false);
 					}
 				}
 			}
 		}
-	}
-
-	@Provides
-	NatureRCUtilConfig provideConfig(ConfigManager configManager)
-	{
-		return configManager.getConfig(NatureRCUtilConfig.class);
-	}
-
-	private int getIndexOfNameFromMenu (Menu menu, String name){
-		for (int i = 0; i < menu.getMenuEntries().length - 1; i++) {
-			if (menu.getMenuEntries()[i].getOption().equals(name)) {
-				return i;
-			}
-		}
-		return -1;
 	}
 }
