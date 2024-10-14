@@ -48,7 +48,7 @@ public class BloodRCUtilPlugin extends Plugin
 {
 	int[] capes = {
 			ItemID.CONSTRUCT_CAPE, //Construction Cape
-			ItemID.CONSTRUCT_CAPE_T // Construction cape (t)
+			ItemID.CONSTRUCT_CAPE(T) // Construction cape (t)
 	};
 	@Inject
 	private Client client;
@@ -77,12 +77,11 @@ public class BloodRCUtilPlugin extends Plugin
 				int cape = menuEntries[menuEntries.length - 2].getItemId();
 				int wearIdx = -1;
 				if (ArrayUtils.contains(capes, cape)) {
-					wearIdx = getIndexOfNameFromMenu(menu, "Wear");
 					if (wearIdx == -1) {
 						return;
 					}
 
-					if (wearIdx >= 0 && wearrIdx < MenuEntries.length) {
+					if (wearIdx >= 0 && wearIdx < MenuEntries.length) {
 						MenuEntry wear = MenuEntries[wearIdx];
 						client.getMenu().createMenuEntry(-1)
 								.setOption(wear.getOption())
