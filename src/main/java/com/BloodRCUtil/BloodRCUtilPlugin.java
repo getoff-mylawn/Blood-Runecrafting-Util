@@ -47,8 +47,8 @@ import net.runelite.api.coords.WorldPoint;
 public class BloodRCUtilPlugin extends Plugin
 {
 	int[] capes = {
-			ItemID.CONSTRUCT._CAPE, //Construction Cape
-			ItemID.CONSTRUCT._CAPE_T // Construction cape (t)
+			ItemID.CONSTRUCT_CAPE, //Construction Cape
+			ItemID.CONSTRUCT_CAPE_T // Construction cape (t)
 	};
 	@Inject
 	private Client client;
