@@ -47,8 +47,8 @@ import net.runelite.api.coords.WorldPoint;
 public class BloodRCUtilPlugin extends Plugin
 {
 	int[] capes = {
-			ItemID.CONSTRUCT._CAPE, //diary cape
-			ItemID.CONSTRUCT._CAPE_T // diary cape (t)
+			ItemID.CONSTRUCT._CAPE, //Construction Cape
+			ItemID.CONSTRUCT._CAPE_T // Construction cape (t)
 	};
 	@Inject
 	private Client client;
@@ -69,6 +69,7 @@ public class BloodRCUtilPlugin extends Plugin
 	public void onPostMenuSort(PostMenuSort event) {
 		WorldPoint playerLoc = client.getLocalPlayer().getWorldLocation();
 		if ( 12875== playerLoc.getRegionID()) {
+			String wearString = "wear";
 			
 			Menu menu = client.getMenu();
 			MenuEntry[] menuEntries = menu.getMenuEntries();
